@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Podcast Estudantil | AURA CAST</title>
+  <meta name="description" content="AURACAST é o podcast estudantil que traz debates, dicas de estudo e histórias reais da universidade." />
+  <style>
+    :root {
+      --bg: #0b1220;
+      --surface: #111a33;
+      --text: #f4f7ff;
+      --muted: #a8b3d1;
+      --accent: #ffb74d;
+      --accent-strong: #ff8c42;
+      --highlight: #7ce2d9;
+      --shadow: 0 24px 80px rgba(75, 22, 22, 0.28);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background: radial-gradient(circle at top left, rgba(124,226,217,0.22), transparent 28%),
+                  radial-gradient(circle at bottom right, rgba(255,183,77,0.18), transparent 24%),
+                  var(--bg);
+      min-height: 100vh;
+      line-height: 1.65;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+
+    header {
+      position: sticky; top: 0; z-index: 20;
+      background: rgba(11, 18, 32, 0.92);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(12px);
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 0 0 0 0;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 24px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .brand span {
+      width: 40px; height: 40px;
+      display: grid; place-items: center;
+      border-radius: 14px;
+      background: rgba(255, 183, 77, 0.18);
+      color: #fff;
+    }
+
+    .nav-links {
+      display: flex; flex-wrap: wrap; gap: 1rem;
+      align-items: center;
+    }
+
+    .nav-links a { color: var(--muted); transition: color 0.2s ease; }
+    .nav-links a:hover { color: var(--text); }
+
+    .hero { padding: 90px 0 48px; position: relative; }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.85fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .hero-title {
+      margin: 0 0 1rem;
+      font-size: clamp(3rem, 5vw, 4.6rem);
+      line-height: 0.95;
+    }
+
+    .hero-subtitle {
+      max-width: 620px;
+      margin-bottom: 1.8rem;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .hero-actions {
+      display: flex; flex-wrap: wrap; gap: 1rem;
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 52px; padding: 0 1.6rem; border-radius: 999px;
+      border: none; font-weight: 700; cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      color: #08101f;
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.08);
+      color: var(--text); border: 1px solid rgba(255,255,255,0.14);
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px; margin-top: 2.4rem;
+    }
+
+    .stat {
+      padding: 1.2rem;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .stat strong {
+      display: block; font-size: 1.3rem; margin-bottom: 0.35rem;
+      color: #fff;
+    }
+
+    .hero-image {
+      position: relative; min-height: 420px;
+      border-radius: 36px; overflow: hidden;
+      background: linear-gradient(155deg, rgba(255,136,66,0.27), rgba(124,226,217,0.18));
+      box-shadow: var(--shadow);
+      padding: 2rem; display: grid; align-content: end;
+    }
+
+    .hero-card {
+      background: rgba(11, 18, 32, 0.95);
+      border: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(18px);
+      border-radius: 28px; padding: 1.6rem;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
+    }
+
+    .hero-card h3 { margin: 0 0 0.75rem; font-size: 1.2rem; }
+
+    .episode-pill {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      margin-bottom: 1rem; padding: 0.55rem 0.95rem;
+      border-radius: 999px; background: rgba(255,255,255,0.05);
+      color: var(--muted); font-size: 0.92rem;
+    }
+
+    .wave {
+      position: absolute; inset: 0; pointer-events: none; opacity: 0.18;
+      background: radial-gradient(circle at 20% 20%, rgba(255, 183, 77, 0.4), transparent 13%),
+                  radial-gradient(circle at 80% 20%, rgba(124, 226, 217, 0.3), transparent 12%),
+                  radial-gradient(circle at 50% 70%, rgba(255, 255, 255, 0.12), transparent 17%);
+      mix-blend-mode: screen;
+    }
+
+    .section { padding: 64px 0; }
+
+    .section-title { text-align: center; margin-bottom: 3rem; }
+    .section-title h2 { margin: 0; font-size: clamp(2rem, 3vw, 3rem); }
+    .section-title p {
+      margin: 1rem auto 0; max-width: 700px; color: var(--muted);
+    }
+
+    .features, .episode-grid { display: grid; gap: 24px; }
+    .features { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .episode-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .feature, .episode-card {
+      background: var(--surface);
+      border-radius: 28px;
+      padding: 2rem;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow);
+    }
+
+    .feature h3, .episode-card h3 { margin-top: 0.75rem; margin-bottom: 1rem; font-size: 1.15rem; }
+    .feature p, .episode-card p { color: var(--muted); }
+
+    .episode-card span {
+      display: inline-flex; margin-bottom: 1rem;
+      color: var(--highlight); font-weight: 700;
+    }
+
+    .episode-card .listen {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      padding: 0.9rem 1.3rem; border-radius: 999px;
+      background: rgba(124, 226, 217, 0.16); color: #e9fffd;
+      font-weight: 700;
+    }
+
+    .hosts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+    .host-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border-radius: 28px; padding: 2rem;
+      border: 1px solid rgba(255,255,255,0.08);
+      display: grid; gap: 1.3rem;
+    }
+
+    .host-card h3 { margin: 0; font-size: 1.2rem; }
+    .host-card p { margin: 0; color: var(--muted); }
+
+    .host-card .tag {
+      display: inline-flex; padding: 0.45rem 0.9rem;
+      border-radius: 999px; background: rgba(255, 183, 77, 0.14);
+      color: var(--accent); font-size: 0.88rem; font-weight: 700;
+    }
+
+    .newsletter {
+      background: linear-gradient(135deg, rgba(255, 183, 77, 0.14), rgba(124, 226, 217, 0.13));
+      border-radius: 36px; padding: 3rem 2.5rem;
+      display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 2rem;
+      align-items: center; border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: var(--shadow);
+    }
+
+    .newsletter h3 { margin: 0 0 1rem; font-size: clamp(1.6rem, 2.2vw, 2rem); }
+    .newsletter p { margin: 0 0 1.7rem; color: var(--muted); max-width: 520px; }
+
+    .newsletter-form { display: grid; gap: 1rem; }
+    .newsletter-form input {
+      width: 100%; min-height: 56px; border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.1); padding: 0 1.2rem;
+      background: rgba(255,255,255,0.06); color: #fff;
+    }
+
+    .newsletter-form button {
+      min-height: 56px; border-radius: 16px; border: none;
+      background: var(--accent); color: #08101f;
+      cursor: pointer; padding: 0 1.4rem; font-weight: 700;
+    }
+
+    footer {
+      padding: 36px 0 20px; color: var(--muted); font-size: 0.94rem;
+    }
+
+    .footer-grid {
+      display: flex; justify-content: space-between;
+      gap: 1rem; flex-wrap: wrap; align-items: center;
+    }
+
+    .socials { display: flex; gap: 1rem; align-items: center; }
+    .badge {
+      display: inline-flex; padding: 0.45rem 0.85rem;
+      border-radius: 999px; background: rgba(255,255,255,0.08);
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid, .features, .episode-grid, .hosts, .newsletter { grid-template-columns: 1fr; }
+      .hero { padding-top: 70px; }
+    }
+
+    @media (max-width: 720px) {
+      .nav { flex-direction: column; align-items: flex-start; }
+      .nav-links { width: 100%; justify-content: flex-start; }
+      .hero-title { font-size: 2.6rem; }
+      .hero-image { min-height: 320px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#top"><span>♪</span> AURA CAST</a>
+      <nav class="nav-links">
+        <a href="#sobre">Sobre</a>
+        <a href="#episodios">Episódios</a>
+        <a href="#hosts">Hosts</a>
+        <a href="#inscricao">Inscreva-se</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero" id="top">
+      <div class="hero-grid">
+        <div>
+          <p style="font-weight:700; color: var(--accent); letter-spacing:0.12em; text-transform:uppercase; margin-bottom:1rem;">Podcast Estudantil</p>
+          <h1 class="hero-title">O podcast que leva a voz da Salas de aula para além da Escola.</h1>
+          <p class="hero-subtitle">Conversas reais, dicas de estudo, cultura pop, carreira e descobertas estudantis com formato leve e próximo dos estudantes.</p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#inscricao">Ouça Agora</a>
+            <a class="btn btn-secondary" href="#episodios">Ver Episódios</a>
+          </div>
+
+          <div class="hero-metrics">
+            <div class="stat"><strong>20+</strong> episódios lançados</div>
+            <div class="stat"><strong>15k</strong> ouvintes ativos</div>
+            <div class="stat"><strong>100%</strong> vibes estudantis</div>
+          </div>
+        </div>
+
+        <div class="hero-image">
+          <div class="wave"></div>
+          <div class="hero-card">
+            <div class="episode-pill">Último episódio</div>
+            <h3>Como montar uma rotina de estudos sem perder o sono</h3>
+            <p>Debate entre alunos, dicas práticas e inspiração para crescer na universidade com equilíbrio.</p>
+            <a class="btn listen" href="#episodios">Ouvir agora</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="sobre">
+      <div class="section-title">
+        <h2>Por que o AURACAST é perfeito para você?</h2>
+        <p>Um podcast feito por estudantes, para estudantes. Cada episódio traz conteúdo útil, entrevistas reais e assuntos que interessam de verdade.</p>
+      </div>
+
+      <div class="features">
+        <article class="feature">
+          <span style="display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; border-radius:14px; background: rgba(124,226,217,0.18); color: #7ce2d9;">🎧</span>
+          <h3>Foco na experiência escolar</h3>
+          <p>Debates sobre gestão de tempo, escolha de curso, estágios e como transformar a vida escolar em uma jornada com propósito.</p>
+        </article>
+
+        <article class="feature">
+          <span style="display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; border-radius:14px; background: rgba(255,183,77,0.16); color: #ffb74d;">💬</span>
+          <h3>Entrevistas com convidados reais</h3>
+          <p>Alunos, professores e profissionais compartilham histórias inspiradoras e dicas práticas para o seu dia a dia.</p>
+        </article>
+
+        <article class="feature">
+          <span style="display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; border-radius:14px; background: rgba(255,255,255,0.06); color: #fff;">⚡</span>
+          <h3>Formato dinâmico e leve</h3>
+          <p>Episódios curtos, edição ágil e um tom leve para acompanhar sua rotina sem perder tempo.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="episodios">
+      <div class="section-title">
+        <h2>Episódios em destaque</h2>
+        <p>Explore os temas mais procurados pela comunidade estudantil, com insights e recursos para aplicar imediatamente.</p>
+      </div>
+
+      <div class="episode-grid">
+        <article class="episode-card">
+          <span>EP 24</span>
+          <h3>Estudo ativo: transforme suas leituras em resultados</h3>
+          <p>Uma conversa sobre técnicas que fazem você reter mais conteúdo e estudar com menos ansiedade.</p>
+          <a class="listen" href="#inscricao">Ouvir</a>
+        </article>
+
+        <article class="episode-card">
+          <span>EP 21</span>
+          <h3>Bolsa, intercâmbio e carreira: o que considerar primeiro</h3>
+          <p>Dicas práticas para planejar seu futuro acadêmico sem perder o foco no presente.</p>
+          <a class="listen" href="#inscricao">Ouvir</a>
+        </article>
+
+        <article class="episode-card">
+          <span>EP 18</span>
+          <h3>Bem-estar na universidade: rotina saudável sem abrir mão das metas</h3>
+          <p>Estratégias para equilibrar sono, amizade, estudo e projetos pessoais sem estresse.</p>
+          <a class="listen" href="#inscricao">Ouvir</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="hosts">
+      <div class="section-title">
+        <h2>Quem está por trás do microfone</h2>
+        <p>Conheça os apresentadores que trazem o tom jovem, autêntico e colaborativo da nossa comunidade estudantil.</p>
+      </div>
+
+      <div class="hosts">
+        <article class="host-card">
+          <div class="tag">Apresentadora</div>
+          <h3>Laura Fernandes</h3>
+          <p>Estudante de comunicação social, traz empatia e entrevistas que conectam experiência e ação.</p>
+        </article>
+
+        <article class="host-card">
+          <div class="tag">Co-host</div>
+          <h3>Rafael Silva</h3>
+          <p>Curioso por tecnologia e empreendedorismo, conduz os episódios com perguntas fortes e tom descontraído.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="inscricao">
+      <div class="newsletter">
+        <div>
+          <h3>Fique por dentro dos novos episódios</h3>
+          <p>Receba novidades no seu e-mail e seja avisado sempre que um episódio novo do Conexão Campus chegar na sua plataforma favorita.</p>
+        </div>
+        <form class="newsletter-form">
+          <input type="email" placeholder="Seu melhor e-mail" aria-label="Seu melhor e-mail" required>
+          <button type="submit">Quero receber</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="container">
+    <div class="footer-grid">
+      <div>
+        <p><strong>AURA CAST</strong> — Podcast estudantil para quem quer aprender, se divertir e crescer dentro e fora da escola.</p>
+      </div>
+    <div class="socials">
+  <a href="https://www.instagram.com/eremauracast" target="_blank" rel="noopener noreferrer">
+    <span class="badge">Instagram</span>
+  </a>
+  <a href="https://open.spotify.com/user/seu_usuario" target="_blank" rel="noopener noreferrer">
+    <span class="badge">Spotify</span>
+  </a>
+  <a href="https://youtube.com" target="_blank" rel="noopener noreferrer">
+    <span class="badge">YouTube</span>
+  </a>
+</div>
+    <p style="margin-top:1rem; color: var(--muted);">© <span id="year"></span> AURA CAST. Todos os direitos reservados.</p>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', event => {
+        event.preventDefault();
+        document.querySelector(link.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+</html>
